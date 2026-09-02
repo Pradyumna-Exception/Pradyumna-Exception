@@ -1,136 +1,212 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday!</title>
-  <!-- Tailwind CSS & Canvas Confetti -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-  <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-    .balloon {
-      animation: float 3s ease-in-out infinite;
-      cursor: pointer;
-    }
-    .fade-in {
-      animation: fadeIn 2s ease-in-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
-</head>
-<body class="bg-gradient-to-b from-indigo-900 via-purple-800 to-pink-800 min-h-screen text-white font-sans overflow-x-hidden">
-
-  <!-- Soft Background Audio -->
-  <audio id="bg-music" loop>
-    <source src="https://assets.mixkit.co/music/preview/mixkit-peaceful-piano-109.mp3" type="audio/mp3">
-  </audio>
-
-  <!-- Step 1: Sukoon Bhari Entry Screen -->
-  <div id="step-1" class="flex flex-col items-center justify-center min-h-screen p-4 text-center">
-    <h1 class="text-3xl md:text-5xl font-serif tracking-wide mb-6 fade-in">Aapke Is Khaas Din Par... ✨</h1>
-    <p class="text-lg opacity-80 mb-8 fade-in">Aankhein band karein aur ek pyari si smile ke saath tap karein</p>
-    <button onclick="startExperience()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95">
-      Open Wish ❤️
-    </button>
-  </div>
-
-  <!-- Interactive Area (Balloons, Scene, Photos) -->
-  <div id="interactive-area" class="hidden min-h-screen flex flex-col items-center justify-between p-4 relative">
-    
-    <!-- Tap to Pop Balloons Layer -->
-    <div id="balloon-container" class="absolute inset-0 pointer-events-none flex justify-around items-start pt-10">
-      <div class="balloon pointer-events-auto text-5xl" onclick="popBalloon(this)">🎈</div>
-      <div class="balloon pointer-events-auto text-5xl" style="animation-delay: 1s;" onclick="popBalloon(this)">🎈</div>
-      <div class="balloon pointer-events-auto text-5xl" style="animation-delay: 0.5s;" onclick="popBalloon(this)">🎈</div>
-      <div class="balloon pointer-events-auto text-5xl" style="animation-delay: 1.5s;" onclick="popBalloon(this)">🎈</div>
-    </div>
-
-    <!-- Cartoon & Cake Stage -->
-    <div id="stage" class="text-center mt-12 z-10">
-      <div id="character" class="text-7xl mb-4 transition-all duration-1000">🧸</div>
-      <div id="cake" class="text-6xl relative inline-block">
-        🎂
-        <span id="candle-flame" class="absolute -top-4 left-1/2 -translate-x-1/2 text-2xl animate-pulse">🔥</span>
-      </div>
-      <p id="dialogue" class="mt-4 text-xl font-medium bg-black/40 backdrop-blur-md px-6 py-2 rounded-full border border-white/20">
-        Cute Bear table ke paas aa raha hai...
-      </p>
-    </div>
-
-    <!-- Step 2: 5 Memories Gallery -->
-    <div id="memories-section" class="hidden w-full max-w-md my-8 z-10">
-      <h2 class="text-center text-2xl font-serif mb-4">Pyaari Yaadein ✨</h2>
-      <div class="flex overflow-x-auto space-x-4 p-2 scrollbar-none">
-        <img src="./1784297236873.png" class="w-48 h-64 object-cover rounded-xl shadow-2xl border-2 border-white/30 flex-shrink-0" alt="Memory 1">
-        <img src="./1787412309681.png" class="w-48 h-64 object-cover rounded-xl shadow-2xl border-2 border-white/30 flex-shrink-0" alt="Memory 2">
-        <img src="./1788240671470.png" class="w-48 h-64 object-cover rounded-xl shadow-2xl border-2 border-white/30 flex-shrink-0" alt="Memory 3">
-        <img src="./1788240684770.png" class="w-48 h-64 object-cover rounded-xl shadow-2xl border-2 border-white/30 flex-shrink-0" alt="Memory 4">
-        <img src="./1788315516955.png" class="w-48 h-64 object-cover rounded-xl shadow-2xl border-2 border-white/30 flex-shrink-0" alt="Memory 5">
-      </div>
-    </div>
-
-    <!-- Step 3: Surprise Box Area -->
-    <div id="gift-area" class="hidden flex flex-col items-center z-10 mb-8">
-      <div id="gift-box" class="text-7xl cursor-pointer transform transition hover:scale-110" onclick="openGift()">🎁</div>
-      <p id="gift-text" class="text-sm mt-2 opacity-80">Gift Box par tap karke kholein!</p>
-    </div>
-
-  </div>
-
-  <script>
-    const music = document.getElementById('bg-music');
-
-    function startExperience() {
-      document.getElementById('step-1').classList.add('hidden');
-      document.getElementById('interactive-area').classList.remove('hidden');
-      music.play().catch(() => {});
-      
-      // Step 1 Flow: Character Candle bujhata hai
-      setTimeout(() => {
-        document.getElementById('dialogue').innerText = "💨 Bear ne candle bujha di!";
-        document.getElementById('candle-flame').style.display = 'none';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Birthday Surprise</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #0b0b0b; color: #ffffff; overflow: hidden; height: 100vh; width: 100vw; transition: background 0.8s ease; }
         
-        setTimeout(() => {
-          document.getElementById('dialogue').innerText = "🎉 Happy Birthday!! AAP JIO HAZARO SAAL!";
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-          
-          // Step 2 Flow: Memories dikhana
-          setTimeout(() => {
-            document.getElementById('memories-section').classList.remove('hidden');
-            document.getElementById('dialogue').innerText = "In khoobsurat yaadon ko dekhiye... ❤️";
-            
-            // Step 3 Flow: Surprise Box Dhakka marke lana
+        .scene { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; transition: opacity 0.5s ease; }
+        .scene.hidden { display: none !important; }
+        
+        /* Step 1: Visible Lamp Switch */
+        .lamp-box { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .lamp-icon { font-size: 80px; filter: drop-shadow(0 0 10px #333); transition: transform 0.2s; }
+        .string-btn { margin-top: 15px; padding: 12px 25px; background: #ffd700; color: #000; font-weight: bold; border-radius: 25px; border: none; box-shadow: 0 0 15px rgba(255,215,0,0.6); }
+
+        /* Step 2: Form & Password */
+        .glass-card { background: rgba(255, 215, 0, 0.15); border: 2px solid #ffd700; border-radius: 20px; padding: 25px; width: 90%; max-width: 320px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+        .glass-card input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; outline: none; font-size: 16px; text-align: center; }
+        .glow-btn { background: linear-gradient(45deg, #ff007f, #7928ca); color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer; box-shadow: 0 0 10px #ff007f; }
+        .error-msg { color: #ff4d4d; font-size: 14px; font-weight: bold; margin-top: 8px; display: none; }
+
+        /* Step 3: Glossy Pink Balloon with Printed Text */
+        .balloon-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; animation: floatUp 2.5s infinite alternate ease-in-out; }
+        @keyframes floatUp { 0% { transform: translateY(0); } 100% { transform: translateY(-18px); } }
+
+        .real-balloon {
+            width: 180px; height: 220px;
+            background: radial-gradient(circle at 35% 30%, #ff66b2 0%, #d81b60 60%, #880e4f 100%);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), inset 15px 15px 25px rgba(255,255,255,0.7), 0 10px 25px rgba(216, 27, 96, 0.5);
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .balloon-text {
+            color: #ffffff; font-weight: 900; font-size: 20px; text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.4); line-height: 1.2; text-align: center; width: 80%;
+        }
+
+        .balloon-knot { width: 14px; height: 10px; background: #880e4f; border-radius: 3px; margin-top: -2px; }
+        .balloon-string { width: 2px; height: 60px; background: rgba(255,255,255,0.7); box-shadow: 0 0 4px rgba(255,255,255,0.5); }
+
+        /* Step 4: Cake */
+        .cake-img { font-size: 90px; margin: 20px 0; }
+
+        /* Step 5: Realistic 3D Pine Tree (🌲) */
+        .tree-viewport { position: relative; width: 100%; height: 260px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; overflow: hidden; }
+        
+        .pine-tree { display: flex; flex-direction: column; align-items: center; transform-origin: bottom; animation: growUp 2s ease-out forwards; }
+        .layer { width: 0; height: 0; border-left: solid transparent; border-right: solid transparent; border-bottom: solid #1e5631; margin-bottom: -25px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+        .layer-1 { border-left-width: 40px; border-right-width: 40px; border-bottom-width: 50px; border-bottom-color: #4c9a2a; z-index: 4; }
+        .layer-2 { border-left-width: 60px; border-right-width: 60px; border-bottom-width: 65px; border-bottom-color: #2e7d32; z-index: 3; }
+        .layer-3 { border-left-width: 80px; border-right-width: 80px; border-bottom-width: 80px; border-bottom-color: #1b5e20; z-index: 2; }
+        .trunk { width: 22px; height: 45px; background: #3e2723; border-radius: 4px; z-index: 1; }
+
+        @keyframes growUp {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Falling Colorful Magical Leaves */
+        .leaf { position: absolute; font-size: 16px; animation: leafFall 3s infinite linear; opacity: 0.9; }
+        @keyframes leafFall {
+            0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(280px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Step 6: Dedicated Photo Memory Screen */
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .photo-card img { width: 120px; height: 120px; border-radius: 15px; border: 3px solid #ffd700; object-fit: cover; box-shadow: 0 0 15px rgba(255,215,0,0.5); }
+    </style>
+</head>
+<body>
+
+    <div id="step1" class="scene">
+        <div class="lamp-box" id="lampBtn">
+            <div class="lamp-icon" id="lampIcon">💡</div>
+            <button class="string-btn">Light On Karne Ke Liye Tap Karein 👇</button>
+        </div>
+    </div>
+
+    <div id="step2" class="scene hidden">
+        <div class="glass-card">
+            <h2 style="color:#ffd700; margin-bottom:10px;">✨ Secret Box ✨</h2>
+            <input type="text" id="userName" placeholder="Apna Naam Likhein">
+            <p style="color:#ffd700; font-size:12px; margin-top:5px;">Password (DOB):</p>
+            <input type="text" id="userDOB" placeholder="19.10.2005">
+            <p id="errorTxt" class="error-msg">❌ Galat Password! Access Denied.</p>
+            <button id="submitBtn" class="glow-btn">Magic Unlock 🎁</button>
+        </div>
+    </div>
+
+    <div id="step3" class="scene hidden">
+        <div id="balloonBox" class="balloon-wrapper">
+            <div class="real-balloon">
+                <div class="balloon-text">Happy<br>Birthday!</div>
+            </div>
+            <div class="balloon-knot"></div>
+            <div class="balloon-string"></div>
+            <p style="color:#ffd700; font-size:16px; font-weight:bold; margin-top:15px;">Balloon par tap karke phodein! 🎈</p>
+        </div>
+        <div id="wishText" class="hidden">
+            <h1 id="greetingName" style="color:#ff007f; margin-bottom:15px; font-size:28px;">Happy Birthday! 🎉</h1>
+            <button id="toCakeBtn" class="glow-btn">Cake Cutting Scene 🎂</button>
+        </div>
+    </div>
+
+    <div id="step4" class="scene hidden">
+        <h2>Make a wish & blow out the candle 🕯️</h2>
+        <div class="cake-img" id="cakeEmoji">🎂</div>
+        <button id="blowBtn" class="glow-btn">Phoonk Maarein (Blow Candle) 🌬️</button>
+    </div>
+
+    <div id="step5" class="scene hidden">
+        <div class="tree-viewport">
+            <div class="pine-tree">
+                <div class="layer layer-1"></div>
+                <div class="layer layer-2"></div>
+                <div class="layer layer-3"></div>
+                <div class="trunk"></div>
+            </div>
+            <div class="leaf" style="left: 20%; color: #ff007f; animation-delay: 0s;">🌸</div>
+            <div class="leaf" style="left: 35%; color: #ffb703; animation-delay: 0.6s;">💛</div>
+            <div class="leaf" style="left: 55%; color: #7209b7; animation-delay: 1.2s;">💜</div>
+            <div class="leaf" style="left: 75%; color: #4cc9f0; animation-delay: 1.8s;">💙</div>
+            <div class="leaf" style="left: 90%; color: #00f5d4; animation-delay: 2.2s;">✨</div>
+        </div>
+        <h2 id="treeMessage" style="color:#ffd700; margin-top:15px; font-size:20px;">Happy Birthday! 🌟</h2>
+        <button id="nextToMemoryBtn" class="glow-btn hidden" style="margin-top:20px;">Chalo yaad karte hain bite hue kal ke kuchh pal... 📸</button>
+    </div>
+
+    <div id="step6" class="scene hidden">
+        <h2 style="color:#ff007f; margin-bottom:10px;">💖 Bite Hue Kal Ki Yaadein 💖</h2>
+        <div class="photo-grid">
+            <div class="photo-card"><img src="https://picsum.photos/200/200?random=1"></div>
+            <div class="photo-card"><img src="https://picsum.photos/200/200?random=2"></div>
+            <div class="photo-card"><img src="https://picsum.photos/200/200?random=3"></div>
+            <div class="photo-card"><img src="https://picsum.photos/200/200?random=4"></div>
+        </div>
+        <p style="margin-top:20px; color:#ffd700; font-size:16px;">Forever Special Memories ✨</p>
+    </div>
+
+    <script>
+        const popSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
+        let userNameSaved = "Friend";
+
+        function showStep(fromId, toId) {
+            document.getElementById(fromId).classList.add('hidden');
+            document.getElementById(toId).classList.remove('hidden');
+        }
+
+        // Step 1: Lamp Switch
+        document.getElementById('lampBtn').onclick = () => {
+            document.body.style.backgroundColor = '#fff5c0';
+            document.getElementById('lampIcon').style.filter = 'drop-shadow(0 0 30px #ffae19)';
             setTimeout(() => {
-              document.getElementById('gift-area').classList.remove('hidden');
-              document.getElementById('character').innerText = "🧸📦"; // Push animation representation
-              document.getElementById('dialogue').innerText = "Arey dekho! Bear dhakka marke aapke liye gift box laaya hai! 🎁";
-            }, 6000);
+                document.body.style.backgroundColor = '#1a1805';
+                showStep('step1', 'step2');
+            }, 800);
+        };
 
-          }, 3000);
+        // Step 2: Smart Password Verification (Strict for 19.10.2005)
+        document.getElementById('submitBtn').onclick = () => {
+            const nameInput = document.getElementById('userName').value.trim();
+            const rawDob = document.getElementById('userDOB').value.trim();
+            const cleanDob = rawDob.replace(/[^0-9]/g, '');
+            const errorTxt = document.getElementById('errorTxt');
 
-        }, 1500);
-      }, 2500);
-    }
+            if (cleanDob === "19102005") {
+                errorTxt.style.display = 'none';
+                if(nameInput) userNameSaved = nameInput;
+                showStep('step2', 'step3');
+            } else {
+                errorTxt.style.display = 'block';
+            }
+        };
 
-    // Balloon Burst Sound and Effect
-    function popBalloon(element) {
-      confetti({ particleCount: 30, spread: 50, origin: { x: element.getBoundingClientRect().left / window.innerWidth, y: element.getBoundingClientRect().top / window.innerHeight } });
-      element.style.visibility = 'hidden';
-    }
+        // Step 3: Balloon Pop
+        document.getElementById('balloonBox').onclick = () => {
+            popSound.play().catch(()=>{});
+            if(window.confetti) confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            document.getElementById('balloonBox').style.display = 'none';
+            document.getElementById('greetingName').innerText = `Happy Birthday 💖\n${userNameSaved}!`;
+            document.getElementById('wishText').classList.remove('hidden');
+        };
 
-    // Gift Box Open
-    function openGift() {
-      confetti({ particleCount: 200, spread: 100 });
-      document.getElementById('gift-box').innerText = "👑✨";
-      document.getElementById('gift-text').innerText = "Aap humare liye sabse bada gift ho! Stay Blessed Always!";
-    }
-  </script>
+        // Step 4: Cake
+        document.getElementById('toCakeBtn').onclick = () => showStep('step3', 'step4');
+
+        document.getElementById('blowBtn').onclick = () => {
+            document.getElementById('cakeEmoji').innerText = '🍰';
+            if(window.confetti) confetti({ particleCount: 60 });
+            setTimeout(() => {
+                showStep('step4', 'step5');
+                document.getElementById('treeMessage').innerText = `Happy Birthday ${userNameSaved}! ✨`;
+                setTimeout(() => {
+                    document.getElementById('nextToMemoryBtn').classList.remove('hidden');
+                }, 1800);
+            }, 1000);
+        };
+
+        // Step 5 to Step 6 (Next Memory Page)
+        document.getElementById('nextToMemoryBtn').onclick = () => {
+            showStep('step5', 'step6');
+        };
+    </script>
 </body>
 </html>
